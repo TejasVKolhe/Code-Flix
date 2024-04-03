@@ -32,24 +32,28 @@ const authUser = asyncHandler(async (req, res) => {
 // private
 
 const createUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  const userExist = await User.findOne({ email: email });
+  try {
+    const { name, email, password } = req.body;
+    const userExist = await User.findOne({ email: email });
 
-  if (userExist) {
-    res.status(404).json("User already exist");
-  }
+    console.log("Create user request received!");
 
-  const user = await User.create({
-    name,
-    email,
-    password: bcrypt.hashSync(password, 10),
-  });
-
-  if (user) {
-    user.save();
-    res.status(201).json({
-      msg: "New User Created",
+    if (userExist) {
+      return res.status(400).json("User already exists"); // Use 400 for Bad Request
+    }
+    const user = await User.create({
+      name,
+      email,
+      password: bcrypt.hashSync(password, 10),
     });
+
+    // No need to call save() here
+
+    res.status(201).json({ message: "User created successfully!" }); // Send a success response
+  } catch (error) {
+    console.error({ message: error });
+    // Handle specific errors here, e.g., validation errors
+    res.status(500).json({ message: "Internal server error" }); // Generic error for unexpected issues
   }
 });
 

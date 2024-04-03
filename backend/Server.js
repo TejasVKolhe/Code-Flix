@@ -1,38 +1,38 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const jobRoutes = require("./routes/jobRoute");
-const userRoute = require("./routes/userRoute");
-
-const app = express();
-
-app.use(express.json());
-app.use(cors());
+const express = require('express');
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/userRoute'); // Corrected route file name
+const jobRoutes = require('./routes/jobRoute');
+const dotenv = require('dotenv');
 dotenv.config();
 
-const MONGO_URI = "mongodb+srv://darkphoenix5504:rppoopproj@rppoop.etdbqo8.mongodb.net/?retryWrites=true&w=majority&appName=RPPOOP";
+const app = express();
+app.use(express.json());
+const cors = require('cors');
 
-const PORT = process.env.PORT || 5000;
+const corsOptions = {
+  origin: "http://localhost:3001",
+  methods: "GET, PUT, DELETE, POST, PATCH, HEAD",
+  credentials:true
+}
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log("Connected to database");
-})
-.catch((error) => {
-  console.error("Error connecting to database:", error.message);
-});
+app.use(cors(corsOptions));
 
-app.use("/api/jobs", jobRoutes);
-app.use("/api/user", userRoute);
+const PORT = process.env.PORT || 6001;
 
-app.get("/", (req, res) => {
-  res.send("API is working");
-});
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(`Server Port: ${PORT}`);
+    app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+    // Handle connection error here (e.g., exit process)
+  });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.use('/api/user', userRoutes);
+app.use('/api/jobs', jobRoutes);

@@ -17,8 +17,6 @@ mongoose.connect(DB, () => {
 
 const importData = async () => {
   try {
-    await User.deleteMany();
-    await Jobs.deleteMany();
 
     await User.insertMany(user);
     await Jobs.insertMany(data);
@@ -49,3 +47,5 @@ if (process.argv[2] === "-d") {
 } else {
   importData();
 }
+
+
