@@ -1,43 +1,52 @@
 const asyncHandler = require("express-async-handler");
 const Jobs = require("../model/jobsSchema");
 
-//fetch jobs
-//GET /api/jobs
-// public
+// Fetch jobs
+// GET /api/jobs
+// Public
 
-const getJobs = asyncHandler(async (res) => {
-  const jobs = await Jobs.find({}).sort({ date: -1 });
-  res.send(jobs);
+const getJobs = asyncHandler(async (req, res) => {
+  try {
+    const jobs = await Jobs.find({}).sort({ date: -1 }); // Fetch all jobs from the database and sort them by date in descending order
+    res.json(jobs); // Send the fetched jobs as JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
-//create jobs
-//POST /api/jobs/post
-// private
+// Create jobs
+// POST /api/jobs/post
+// Private
 
 const postJobs = asyncHandler(async (req, res) => {
   const { position, company, salary, batch, location, apply, image } = req.body;
 
-  const job = await Jobs.create({
-    position,
-    company,
-    salary,
-    batch,
-    location,
-    apply,
-    image,
-  });
+  try {
+    const job = await Jobs.create({
+      position,
+      company,
+      salary,
+      batch,
+      location,
+      apply,
+      image,
+    });
 
-  if (job) {
-    job.save();
     res.status(201).json({
       msg: "New Job Posted",
+      job: job // Optionally, you can also send the created job data in the response
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to post job' });
   }
 });
 
-//delete product
-//DELETE /api/jobs/:id
-// private/admin
+
+// Delete job
+// DELETE /api/jobs/:id
+// Private/Admin
 
 const deleteJob = asyncHandler(async (req, res) => {
   const job = await Jobs.findById(req.params.id);

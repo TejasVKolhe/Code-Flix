@@ -51,7 +51,7 @@ const Jobs = () => {
             <Message msg={"Unable to delete"} variant={"danger"} />
           )}
           {deleteSuccess && <Message msg={"Job Deleted"} variant={"info"} />}
-          {jobs.map((item) => (
+          {jobs && jobs.map((item) => (
             <Card className="m-3">
               <Row>
                 <Col
