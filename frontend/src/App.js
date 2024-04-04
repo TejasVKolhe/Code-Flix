@@ -9,6 +9,7 @@ import Learn from "./pages/Learn";
 import Register from "./pages/AddUser";
 import PostJobs from "./pages/AddJobs";
 import LearnId from "./pages/LearnId";
+import DiscussionForum from "./pages/DiscussionForum";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/adduser" element={<Register />} />
           <Route path="/addjob" element={<PostJobs />} />
           <Route path="/learn/:id" element={<LearnId />} />
+          <Route path="/discussionforum" element={<DiscussionForum/>} />
         </Routes>
       </Container>
       <Footer />

@@ -1,7 +1,8 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { BiHome, BiBookmark, BiLockAlt, BiLockOpenAlt } from "react-icons/bi";
+import { BiHome, BiBookmark, BiLockAlt, BiLockOpenAlt,  } from "react-icons/bi";
+import { GoCommentDiscussion } from "react-icons/go";
 import { FaLaptopCode } from "react-icons/fa";
 import { MdWorkOutline } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,20 +24,23 @@ const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="py-3">
       <Container>
-      <Navbar.Brand
-        style={{
-          display: 'flex',
-          gap: '0', // Remove gap for tight alignment
-          alignItems: 'center',
-          fontSize: '2rem',
-          whiteSpace: 'nowrap', // Prevent text wrapping
-        }}
-        onClick={() => navigate('/')}
-      >
-        <FaLaptopCode style={{ fontSize: '2rem', color: 'white', marginRight:'2rem' }} /> {/* Code in white */}
-        <span style={{ color: 'white' }}>Code</span>
-        <span style={{ color: 'cyan' }}>Flix</span>
-      </Navbar.Brand>
+        <Navbar.Brand
+          style={{
+            display: "flex",
+            gap: "0", // Remove gap for tight alignment
+            alignItems: "center",
+            fontSize: "2rem",
+            whiteSpace: "nowrap", // Prevent text wrapping
+          }}
+          onClick={() => navigate("/")}
+        >
+          <FaLaptopCode
+            style={{ fontSize: "2rem", color: "white", marginRight: "2rem" }}
+          />{" "}
+          {/* Code in white */}
+          <span style={{ color: "white" }}>Code</span>
+          <span style={{ color: "cyan" }}>Flix</span>
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -82,6 +86,13 @@ const Header = () => {
             >
               <MdWorkOutline style={{ fontSize: "1.4rem" }} />
               Jobs
+            </Nav.Link>
+            <Nav.Link
+              style={{ display: "flex", gap: "0.2rem", alignItems: "center" }}
+              onClick={() => navigate("/discussionforum")}
+            >
+              <GoCommentDiscussion style={{ fontSize: "1.4rem" }} />
+              Discussion
             </Nav.Link>
             {userInfo ? (
               <NavDropdown title={userInfo.name}>

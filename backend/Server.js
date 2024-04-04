@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoute'); // Corrected route file name
 const jobRoutes = require('./routes/jobRoute');
+const discussionRoute = require('./routes/discussionRoute');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -36,3 +38,5 @@ mongoose
 
 app.use('/api/user', userRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use(bodyParser.json());
+app.use('/api/comment', discussionRoute);
