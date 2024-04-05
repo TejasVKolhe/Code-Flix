@@ -18,18 +18,15 @@ export const listComments = () => async (dispatch) => {
   }
 };
 
-export const postComment = (text) => async (dispatch) => {
-    try {
-      dispatch({ type: "COMMENT_POST_REQUEST" });
-      const { data } = await axios.post("http://localhost:3000/api/comment/postcomment", { text });
-      dispatch({ type: "COMMENT_POST_SUCCESS", payload: data });
-    } catch (error) {
-      dispatch({
-        type: "COMMENT_POST_FAILURE",
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+export const postComment = (text, name) => async (dispatch) => {
+  try {
+    dispatch({ type: "COMMENT_POST_REQUEST" });
+    const { data } = await axios.post("http://localhost:3000/api/comment/postcomment", { text, name });
+    dispatch({ type: "COMMENT_POST_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({
+      type: "COMMENT_POST_FAILURE",
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
