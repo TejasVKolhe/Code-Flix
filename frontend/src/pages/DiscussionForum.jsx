@@ -1,40 +1,59 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CommentBox from '../components/CommentBox';
-import { listComments } from '../store/actions/discussionActions';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import CommentBox from "../components/CommentBox";
+import { listComments, postComment } from "../store/actions/discussionActions";
 
-function DiscussionForum() {
+const DiscussionForum = ()=> {
   const dispatch = useDispatch();
-  const [comments, setComments] = useState([]);
-  const commentList = useSelector((state) => state.commentList);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Fetch comments from Redux store
+  const commentList = useSelector((state) => state.commentList);
+  const { comments } = commentList;
+  // Fetch comments on component mount
   useEffect(() => {
-    dispatch(listComments());
+    const fetchComments = async () => {
+      setLoading(true);
+      try {
+        await dispatch(listComments());
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        setError(error.message || "An error occurred while fetching comments.");
+      }
+    };
+
+    fetchComments();
   }, [dispatch]);
 
-  const fetchedComments = useMemo(() => commentList ? commentList.comments : [], [commentList]);
-
-  useEffect(() => {
-    if (fetchedComments) {
-      setComments(fetchedComments);
-    }
-  }, [fetchedComments]);
-
+  // Function to add new comment
   const addComment = (newComment) => {
-    setComments([...comments, newComment]);
+    // Add new comment to the list of comments
+    dispatch(postComment(newComment));
   };
 
   return (
     <div>
       <h1>Discussion Forum</h1>
+      {/* Render CommentBox component */}
       <CommentBox addComment={addComment} />
-      <div>
-        {comments.map((comment, index) => (
-          <div key={index}>
-            <p>{comment.text}</p>
-          </div>
-        ))}
-      </div>
+      {/* Display previous comments */}
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : comments && comments.length > 0 ? (
+        <div>
+          {comments.map((comment, index) => (
+            <div key={index}>
+              <p style={{ color: "black" }}>{comment.text}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>No comments yet.</div>
+      )}
     </div>
   );
 }

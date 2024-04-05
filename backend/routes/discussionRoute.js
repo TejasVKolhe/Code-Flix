@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getAllComments, createComment } = require('../controller/discussionController');
 
-router.route('/getcomment', getAllComments);
-router.route('/postcomment', createComment);
+router.get('/getcomment', getAllComments);
+router.post('/postcomment', createComment);
 
 module.exports = router;

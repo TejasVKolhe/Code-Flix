@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux'; // Import useDispatch
+import { postComment } from '../store/actions/discussionActions';
 
 function CommentBox({ addComment }) {
   const [newComment, setNewComment] = useState('');
-
+  const dispatch = useDispatch();
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3000/api/comments", { text: newComment });
-      addComment(response.data);
-      setNewComment('');
-    } catch (error) {
-      console.error('Error adding comment:', error);
-    }
+  try {
+    dispatch(postComment(newComment));
+    setNewComment(''); // Clear input field after posting comment
+  } catch (error) {
+    console.error('Error adding comment:', error);
+  }
   };
 
   return (

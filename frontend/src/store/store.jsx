@@ -6,6 +6,7 @@ import {
   jobsListReducer,
 } from "./reducers/dataReducer";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducer";
+import { commentListReducer } from "./reducers/commentReducer";
 
 const reducer = combineReducers({
   jobList: jobsListReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   createJob: createJobReducer,
   jobDelete: jobDeleteReducer,
+  commentList: commentListReducer,
 });
 
 const initialState = {};

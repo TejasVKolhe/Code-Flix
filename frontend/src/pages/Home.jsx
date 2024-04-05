@@ -21,7 +21,8 @@ const Home = () => {
           style={{ fontSize: "3.2rem", fontWeight: 700 }}
           onClick={() => navigate("/")}
         >
-          Coffee <span style={{ color: "#0ea5e9" }}>&</span> Code
+          <span style={{ color: "black" }}>Use Code</span>
+          <span style={{ color: "cyan" }}>Flix</span>
         </div>
 
         {/* list */}

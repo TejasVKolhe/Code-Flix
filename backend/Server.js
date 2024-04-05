@@ -19,6 +19,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use('/api/user', userRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use(bodyParser.json());
+app.use('/api/comment', discussionRoute);
+
 const PORT = process.env.PORT || 6001;
 
 // Connect to MongoDB
@@ -36,7 +41,3 @@ mongoose
     // Handle connection error here (e.g., exit process)
   });
 
-app.use('/api/user', userRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use(bodyParser.json());
-app.use('/api/comment', discussionRoute);

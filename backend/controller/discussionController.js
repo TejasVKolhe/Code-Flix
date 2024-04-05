@@ -8,6 +8,7 @@ const Comment = require("../model/discussionSchema");
 const getAllComments = asyncHandler(async (req, res) => {
   try {
     const comments = await Comment.find();
+    console.log("hi");
     res.json(comments);
   } catch (error) {
     console.error(error);
@@ -21,7 +22,6 @@ const getAllComments = asyncHandler(async (req, res) => {
 
 const createComment = asyncHandler(async (req, res) => {
   const { text } = req.body;
-
   try {
     const comment = await Comment.create({ text });
     res.status(201).json({
